@@ -1,0 +1,77 @@
+# Embedding Training Configuration
+# Configuration for training Skip-Gram word embeddings
+
+# Model type (only Skip-Gram)
+model: skip_gram
+
+# Skip-Gram hyperparameters (from paper)
+skip_gram:
+  embedding_size: 200  # Dimension of word vectors
+  window_size: 8  # Context window size
+  min_count: 5  # Minimum word frequency
+  negative_sampling: 10  # Number of negative samples (used in production)
+  epochs: 30  # Training epochs
+  
+  # Learning rate schedule
+  learning_rate_initial: 0.01  # Alpha
+  learning_rate_final: 0.0001  # Min alpha
+  
+  # Fixed hyperparameters (used in final models)
+  fixed_learning_rate: 0.001
+  decay_rate: 0.001  # Sample rate
+  
+  # Other parameters
+  sg: 1  # 1 = Skip-Gram, 0 = CBOW
+  workers: 4  # Parallel workers
+  
+  # Random seed for reproducibility
+  seed: 42
+
+# Phrase detection (bigrams/trigrams)
+phrases:
+  detect_phrases: true
+  min_count: 7  # Minimum count for phrase
+  threshold: 15  # Phrase detection threshold
+  
+# Year-wise training
+temporal:
+  cumulative: true  # Train on all years up to current year
+  start_year: 1929
+  end_year: 2023
+  
+# Tokenization
+tokenization:
+  pattern: "[\\wα-ωΑ-Ω'-]+"  # Regex pattern for tokens
+  preserve_greek: true  # Preserve Greek letters (α, β, etc.)
+
+# Output
+output:
+  save_word_vectors: true  # Save word vectors only (not full model)
+  save_tokenized_corpus: false  # Save tokenized abstracts (large files)
+  compression: pickle  # Format: pickle, binary, text
+  
+# Biomedical term pairs for hyperparameter validation
+# Used to score embedding quality
+biomedical_validation_pairs:
+  - term: "vcam-1"
+    concept: "intercellular_adhesion"
+  - term: "nitric_oxide"
+    concept: "EDRF"
+  - term: "kinase"
+    concept: "phosphorylation"
+  - term: "microtubule"
+    concept: "cytoskeletal"
+  - term: "actin"
+    concepts: ["cytoskeletal", "talin"]
+  - term: "membrane"
+    concept: "membrane_fluidity"
+  - term: "integrin"
+    concept: "cell-matrix_adhesion"
+
+# Notes:
+# - Cumulative training: Year N includes all abstracts from 1929 to N
+# - Negative sampling values: tested with both 10 and 15
+# - Learning rate: 0.001 with decay 0.001 used in final models
+# - Window size 8 chosen after hyperparameter tuning
+# - Embedding size 200 balances expressiveness and computational cost
+

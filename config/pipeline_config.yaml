@@ -1,0 +1,65 @@
+# Master Pipeline Configuration
+# Overall configuration for the PNAS Biomechanics Hypothesis Generation Pipeline
+
+pipeline:
+  name: "Biomechanics Hypothesis Generation Pipeline"
+  version: "1.0.0"
+  
+  # Global random seed for reproducibility
+  random_seed: 42
+  
+  # Pipeline steps (in order)
+  steps:
+    - pubmed_retrieval
+    - language_filtering
+    - preprocessing
+    - classification
+    - embedding_training
+    - graph_construction
+    - protein_ranking
+    - figure_generation
+  
+  # Data paths (relative to project root)
+  data_paths:
+    raw_abstracts: "data/raw/"
+    english_abstracts: "data/english/"
+    processed_abstracts: "data/processed/"
+    classified_abstracts: "data/classified/"
+    classifier_training: "data/classifier_training/"
+    embeddings: "data/embeddings/"
+    results: "results/"
+    figures: "results/figures/"
+    tables: "results/tables/"
+    networks: "results/networks/"
+  
+  # Checkpoint settings
+  checkpointing:
+    enabled: true
+    checkpoint_dir: "checkpoints/"
+    save_intermediate: true
+  
+  # Logging
+  logging:
+    level: "INFO"
+    log_dir: "logs/"
+    console_output: true
+    file_output: true
+
+# References to individual module configs
+module_configs:
+  pubmed_query: "config/pubmed_query.yaml"
+  preprocessing: "config/preprocessing_config.yaml"
+  classifier: "config/classifier_config.yaml"
+  embeddings: "config/embedding_config.yaml"
+  network: "config/network_config.yaml"
+
+# Computational resources
+resources:
+  workers: 4  # Number of parallel workers
+  memory_limit: "32GB"  # Memory limit (not enforced, for documentation)
+
+# Notes:
+# - All paths are relative to the PNAS/ directory
+# - random_seed is propagated to all modules
+# - Intermediate outputs are saved at each step for resumability
+

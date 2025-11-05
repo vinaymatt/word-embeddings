@@ -1,0 +1,72 @@
+# Preprocessing Configuration
+# Configuration for preprocessing PubMed abstracts
+
+# Lemmatization
+lemmatization: true
+use_spacy: true
+spacy_model: "en_core_web_sm"
+
+# Biomedical NER models (for entity preservation)
+biomedical_ner:
+  use_ner: true
+  models:
+    - "en_ner_jnlpba_md"
+    - "en_ner_bionlp13cg_md"
+
+# Bigram/Trigram detection (Gensim Phrases)
+phrases:
+  min_count: 7  # Minimum count for a phrase to be considered
+  threshold: 15  # Threshold for phrase detection (higher = more selective)
+  
+# Number tokenization
+replace_numbers: true
+number_token: "<num>"
+
+# Stopwords
+remove_stopwords: true
+stopword_threshold: "auto"  # or specify a list
+
+# Metadata tags to remove
+remove_metadata_tags: true
+metadata_tags:
+  - "BACKGROUND/AIMS"
+  - "RESULTS"
+  - "METHODS"
+  - "CONCLUSIONS"
+  - "METHODOLOGY/PRINCIPAL"
+  - "FINDINGS"
+  - "CONCLUSIONS/SIGNIFICANCE"
+  - "DESIGN/METHODS"
+  - "DESIGN"
+  - "PRINCIPAL"
+  - "SIGNIFICANCE"
+  - "AIMS"
+  - "CONCLUSION/SIGNIFICANCE"
+  - "MATERIALS"
+  - "MATERIAL"
+  - "OBJECTIVE"
+  - "PURPOSE"
+  - "INTRODUCTION"
+  - "AIM"
+  - "BACKGROUND"
+  - "CONCLUSION"
+  - "METHOD"
+  - "STUDY"
+
+# Entity preservation
+preserve_entities: true  # Preserve NER-detected entities
+preserve_abbreviations: true  # Preserve all-caps and mixed-case words
+
+# Casing
+selective_lowercase: true  # Lowercase non-entities only
+
+# Punctuation
+remove_punctuation: true
+remove_periods: true
+remove_commas: true
+
+# Notes:
+# - Entity preservation prevents lemmatization of protein names, genes, etc.
+# - Selective lowercasing maintains biological terminology (e.g., "eNOS", "VCAM-1")
+# - Bigram/trigram detection groups multi-word terms (e.g., "nitric_oxide", "cell_membrane")
+

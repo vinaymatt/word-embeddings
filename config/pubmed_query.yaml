@@ -1,0 +1,25 @@
+# PubMed Query Configuration
+# Configuration for retrieving abstracts from PubMed
+
+# Entrez API email (required by NCBI)
+# Replace with your email
+email: "your.email@example.com"
+
+# PubMed search query
+# This query targets biomechanics, mechanobiology, and related fields
+search_query: "{protein OR {endothelial cell}} OR {shear stress OR {nitric oxide}}"
+
+# API parameters
+batch_size: 10000  # Maximum results per API call
+delay: 5  # Seconds between API calls (respect NCBI rate limits)
+
+# Year range
+start_year: 1929
+end_year: 2024
+
+# Notes:
+# - The search query can be modified to target different domains
+# - batch_size of 10000 is the maximum allowed by NCBI
+# - delay of 5 seconds helps avoid rate limiting
+# - For queries returning >10k results, the script automatically batches by month/day
+

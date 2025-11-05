@@ -1,0 +1,88 @@
+# Network Construction Configuration
+# Configuration for building weighted similarity networks from embeddings
+
+# Similarity computation
+similarity:
+  metric: cosine  # Similarity metric
+  normalize: true  # Normalize vectors before computing similarity
+  
+# Z-score normalization (for cross-year comparison)
+z_score:
+  enabled: true
+  threshold_std: 2.5  # Number of standard deviations for edge inclusion
+  # Mean + 2-3 std deviations used as threshold
+  
+# Network construction
+network:
+  weighted: true  # Use weighted edges (edge weight = similarity)
+  directed: false  # Undirected graph
+  self_loops: false  # No self-loops
+  
+# Graph layout
+layout:
+  algorithm: spring  # Force-directed layout
+  seed: 42  # For reproducible layouts
+  iterations: 50
+  
+# Case study: Endothelial NO production
+# Input words for hypothesis generation
+case_study_eNOS:
+  input_words:
+    - "dilation"
+    - "platelet"
+    - "aggregation"
+    - "atherosclerosis"
+    - "nitric_oxide"
+    - "vasodilation"
+    - "endothelium-dependent_vasorelaxation"
+    - "endothelium-dependent_vasodilation"
+    - "shear_stress-induced"
+    - "NO-mediated_vasodilation"
+  
+  # Top N similar words per input word
+  top_n_per_word: 50
+
+# Intersection network parameters
+intersection:
+  aggregation: mean  # How to combine similarities (mean, max, min)
+  min_occurrences: 2  # Minimum input words a term must be similar to
+  
+# Protein ranking
+ranking:
+  top_n_proteins: 20  # Number of top proteins to return
+  use_ner: true  # Use NER to filter proteins only
+  
+# Named Entity Recognition
+ner:
+  models:
+    - "en_core_sci_sm"  # SpaCy scientific model
+  validation:
+    use_gpt_ner: true  # Use GPT-NER for validation (Wang et al.)
+  
+  # Entity types to extract
+  entity_types:
+    - "PROTEIN"
+    - "GENE" 
+    - "CHEMICAL"
+    - "CELL_TYPE"
+    - "TISSUE"
+
+# Output formats
+output:
+  save_json: true  # Save network as JSON
+  save_graphml: false  # Save as GraphML
+  save_adjacency: false  # Save adjacency matrix
+  
+# Visualization settings (for exports)
+visualization:
+  node_size_range: [10, 50]
+  edge_width_range: [0.5, 5]
+  color_map: "viridis"
+  interactive: true  # Create interactive Plotly plots
+
+# Notes:
+# - Z-score normalization enables fair comparison across years
+# - Weighted edges preserve similarity magnitude
+# - Spring layout with seed=42 ensures reproducible visualizations
+# - Case study input words target nitric oxide signaling pathway
+

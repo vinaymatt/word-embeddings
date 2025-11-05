@@ -1,0 +1,66 @@
+# Classifier Configuration
+# Configuration for training and applying the relevance classifier
+
+# Classifier type
+classifier_type: multinomial_naive_bayes  # MNB chosen for production
+
+# Feature extraction
+vectorizer:
+  type: bag_of_words  # One-hot bag-of-words
+  max_features: null  # No limit on vocabulary
+  ngram_range: [1, 2]  # Unigrams and bigrams
+  min_df: 2  # Minimum document frequency
+  
+# GPT-4 labeling (for bootstrapping)
+gpt_labeling:
+  enabled: true
+  model: "gpt-4"  # GPT-4 model used
+  temperature: 0  # Deterministic
+  max_tokens: 10  # Short answers only
+  
+  # Fine-tuning parameters
+  finetune:
+    enabled: false  # Fine-tuning was done but model not saved
+    epochs: 3
+    batch_size: 1
+    learning_rate_multiplier: 2.0
+  
+  # Prompt engineering
+  prompt_type: "few_shot"  # Options: initial, refined, few_shot
+  few_shot_examples: 3  # Number of examples in prompt
+  
+# Training data
+training:
+  labeled_dataset_size: 50  # Expert-labeled abstracts
+  validation_set_size: 10000  # Validation abstracts
+  test_set_size: 1000  # Test set
+  random_seed: 42
+  
+# Model selection criteria
+selection:
+  metric: "precision"  # Primary metric: precision for high-quality filtering
+  min_precision: 0.80  # Minimum acceptable precision
+  
+# Production settings
+production:
+  save_predictions: true
+  save_probabilities: true
+  batch_size: 1000  # Batch size for inference
+
+# Prompt evolution (documented for paper)
+prompt_evolution:
+  initial: "Does this abstract relate to transmembrane proteins and nitric oxide production?"
+  refined: "Should this abstract relate to biomechanics and mechanobiology?"
+  few_shot: "Based on these examples, classify the abstract as relevant or not."
+  
+  # Key change: "could relate to" → "should relate to"
+  key_insight: "Changed verb from 'could' to 'should' to reduce false positives"
+
+# Notes:
+# - MNB chosen over GPT-4 for production due to:
+#   1. High precision at operating point
+#   2. Transparent term-level weights (interpretability)
+#   3. Linear-time inference (scalable to millions)
+# - GPT-4 used for bootstrapping and spot-auditing only
+# - Complete performance comparisons in Supplementary Table S1
+

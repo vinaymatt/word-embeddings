@@ -1,0 +1,2 @@
+I am trying to train a skip gram model on a few abstracts, however this requires that we don't use all abstracts but only a specific bunch based on relevance. I want you to help me classify this abstract and respond to my query using a RELEVANT or NOT RELEVANT answer (Mention these keywords). Is this abstract relevant to the field of transmembrane proteins involved in the transduction of fluid shear stress to nitric oxide production in endothelial cells? This abstract is as follows: '{abstract}'.
+

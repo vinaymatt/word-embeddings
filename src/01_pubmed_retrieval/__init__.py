@@ -1,0 +1,2 @@
+"""PubMed abstract retrieval module"""
+
