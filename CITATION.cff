@@ -1,0 +1,9 @@
+@misc{MathewBiomechHypGenCode2025,
+  author       = {Mathew, Vinay Saji and Butler, Peter and Madni, Azad M. and Kumara, Soundar},
+  title        = {Biomech-HypGen: Code to reproduce analyses and figures (v1.0)},
+  year         = {2025},
+  howpublished = {Zenodo},
+  doi          = {10.5281/zenodo.17537604},
+  url          = {https://doi.org/10.5281/zenodo.17537604},
+  note         = {Exact version used in this manuscript}
+}
